@@ -30,11 +30,12 @@ const login = async (userLoginDetails) => {
 
 //Register
 const register = async (userRegistrationDetails) => {
-  let sql = "INSERT INTO users (user_name, password) VALUES (?,?);";
+  let sql = "INSERT INTO users (user_name, password,name) VALUES (?,?,?);";
 
   let parameters = [
     userRegistrationDetails.user_name,
     userRegistrationDetails.password,
+    userRegistrationDetails.name,
   ];
 
   try {

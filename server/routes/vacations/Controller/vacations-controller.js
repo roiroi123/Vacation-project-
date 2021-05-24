@@ -6,7 +6,7 @@ const router = express.Router();
 
 //Add vacation
 router.post('/',authenticateJWT, async (req, res, next) => {
-  console.log("hey:",req.user.sub.role);
+  console.log(req.user.sub.role);
   
   
   try {
@@ -15,7 +15,6 @@ router.post('/',authenticateJWT, async (req, res, next) => {
       res.status(403)
       res.json("Only Admin can upload vacations")
     }
-    0
     const vacationAddDetails = req.body;
     const vacationId = await vacationsLogic.addVacation(vacationAddDetails);
 

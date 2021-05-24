@@ -1,5 +1,11 @@
 const express = require('express');
 const usersLogic = require('../Logic/users-logic');
+const chacheModule = require('../../cache-module')
+const {authenticateJWT} = require('../../../middleware/authenticate')
+const jwt = require('jsonwebtoken');
+const config = require('../../../config.json');
+
+
 
 const router = express.Router();
 
@@ -22,11 +28,41 @@ router.post('/login', async (req, res, next) => {
 
   try {
     const userData = await usersLogic.login(userLoginDetails);
-    // Send logged users token to client
+   
+ 
+  // Send token to client
     res.json(userData);
   } catch (error) {
     return next(error);
   }
+});
+
+// isAuthanticate
+
+router.post('/isAuthanticated', (req,res)=>{
+  const { secret } = config;
+  try {
+    const token = req.body.token;
+    console.log("token",token);
+    if (token) {
+     
+      
+      jwt.verify(token, secret, (err, user) => {
+          if (err) {
+              return res.sendStatus(403);
+          }
+          res.json("true")
+      });
+  } 
+
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(401);
+
+  }
+ 
+
+    
 });
 
 //Get all users

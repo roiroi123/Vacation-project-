@@ -1,6 +1,5 @@
 const usersDao = require("../Dao/users-dao");
-const cacheModule = require("../../cache-module");
-
+const cacheModule = require('../../cache-module')
 let ServerError = require("../../../middleware/errors/server-error");
 let ErrorType = require("../../../middleware/errors/error-type");
 
@@ -15,7 +14,6 @@ const LEFT_SALT = "389462365034758934756238406523";
 const register = async (userRegistrationDetails) => {
   //validations
   if (await usersDao.isUsernameExist(userRegistrationDetails.user_name)) {
-    
     throw new ServerError(ErrorType.USER_NAME_ALREADY_EXIST);
   }
   validateUserDetails(userRegistrationDetails);
@@ -30,29 +28,25 @@ const register = async (userRegistrationDetails) => {
   return usersId;
 };
 
+
 //Login
 const login = async (userLoginDetails) => {
   //validation
   validateUserDetails(userLoginDetails);
 
-  //Hashing password of user that trying to login
   userLoginDetails.password = crypto
     .createHash("md5")
     .update(LEFT_SALT + userLoginDetails.password + RIGHT_SALT)
     .digest("hex");
 
   const userData = await usersDao.login(userLoginDetails);
-
-  //Salting username
-  // const saltedUserName = LEFT_SALT + userLoginDetails.user_name + RIGHT_SALT;
-
   const jwtToken = jwt.sign({ sub: userData }, config.secret);
 
   //Saving in cache userData with token as key.
   cacheModule.set(jwtToken, userData);
-
+ 
   //returning to controller token as object
-  const successfullLoginResponse = { token: jwtToken };
+  const successfullLoginResponse = { token: jwtToken,userData };
   return successfullLoginResponse;
 };
 
@@ -75,7 +69,6 @@ const deleteUser = (id) => {
 };
 
 //Validations
-
 
 const validateUserDetails = (userDetails) => {
   //Username
