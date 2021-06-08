@@ -7,6 +7,7 @@ const config = require('../../../config.json');
 
 
 
+
 const router = express.Router();
 
 //Registration
@@ -84,6 +85,29 @@ router.get('/:id', async (req, res, next) => {
   } catch (error) {
     return next(error);
   }
+});
+//authenticateJWT
+
+router.post('/UserRole', async (req, res, next) => {
+  const { secret } = config;
+  try {
+    const token = req.body.token;
+    console.log("token",token);
+    jwt.verify(token, secret, (err, user) => {
+      if (err) {
+          return res.sendStatus(403);
+      }
+      console.log(user);
+      res.json(user.sub.role)
+      next();
+  });
+
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(401);
+
+  }
+ 
 });
 
 //Update

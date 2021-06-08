@@ -36,7 +36,7 @@ router.get('/',authenticateJWT,async (req, res, next) => {
 });
 
 //Get one vacation
-router.get('/:id', async (req, res, next) => {
+router.get('/:id',authenticateJWT, async (req, res, next) => {
   try {
     const id = req.params.id;
     const vacation = await vacationsLogic.getOneVacation(id);
@@ -48,7 +48,7 @@ router.get('/:id', async (req, res, next) => {
 });
 
 //Update vacation
-router.put('/:id', async (req, res, next) => {
+router.put('/:id',authenticateJWT, async (req, res, next) => {
   try {
     const vacationUpdateDetails = req.body;
     const id = req.params.id;
@@ -64,7 +64,7 @@ router.put('/:id', async (req, res, next) => {
 });
 
 //Delete
-router.delete('/:id', async (req, res, next) => {
+router.delete('/:id',authenticateJWT, async (req, res, next) => {
   try {
     const id = req.params.id;
     const deletedId = await vacationsLogic.deleteVacation(id);

@@ -12,7 +12,7 @@ connection.connect((err) => {
     if (err) {
       throw err;
     }
-    console.log('my sql connected');
+    console.log('sql is connected');
   });
 
   // One function for executing select / insert / update / delete: 
