@@ -1,8 +1,9 @@
-const connection = require('../../connection-wrapper');
+const ServerError = require("../../../middleware/errors/server-error");
+const connection = require("../../connection-wrapper");
 
 const addVacation = async (vacationAddDetails) => {
   let sql =
-    'INSERT INTO vacations (description, destination,img_url,start_date,end_date,price) VALUES (?,?,?,?,?,?);';
+    "INSERT INTO vacations (description, destination,img_url,start_date,end_date,price) VALUES (?,?,?,?,?,?);";
 
   let parameters = [
     vacationAddDetails.description,
@@ -24,8 +25,9 @@ const addVacation = async (vacationAddDetails) => {
   }
 };
 
-const getOneVacation = async (id) => {
-  let sql = 'SELECT * FROM vacations WHERE vacations.id=?;';
+const getFollowedVacation = async (id) => {
+  let sql =
+    "select vacations.* , (case when followed_vacations.vacation_id then 1 else 0 end) as is_followed From vacations Left join followed_vacations on vacations.id = followed_vacations.vacation_id where user_id = ?";
 
   try {
     const vacationDetails = await connection.executeWithParameters(sql, id);
@@ -36,7 +38,7 @@ const getOneVacation = async (id) => {
 };
 
 const getAllVacations = async () => {
-  let sql = 'SELECT * FROM vacations;';
+  let sql = "SELECT * FROM vacations;";
 
   try {
     const vacationsDetails = await connection.executeWithParameters(sql);
@@ -48,7 +50,7 @@ const getAllVacations = async () => {
 
 const updateVacation = async (vacationUpdateDetails, id) => {
   let sql =
-    'UPDATE vacations SET description=?, destination=?, image=?, departure_date=?, arrival_date=?, price=? WHERE vacations.id=?;';
+    "UPDATE vacations SET description=?, destination=?, image=?, departure_date=?, arrival_date=?, price=? WHERE vacations.id=?;";
 
   let parameters = [
     vacationUpdateDetails.description,
@@ -69,7 +71,7 @@ const updateVacation = async (vacationUpdateDetails, id) => {
 };
 
 const deleteVacation = async (id) => {
-  let sql = 'DELETE FROM vacations WHERE vacations.id=?;';
+  let sql = "DELETE FROM vacations WHERE vacations.id=?;";
 
   try {
     const deletedId = await connection.executeWithParameters(sql, id);
@@ -81,7 +83,7 @@ const deleteVacation = async (id) => {
 
 module.exports = {
   addVacation,
-  getOneVacation,
+  getFollowedVacation,
   getAllVacations,
   deleteVacation,
   updateVacation,

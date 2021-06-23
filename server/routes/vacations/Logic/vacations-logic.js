@@ -11,8 +11,8 @@ const getAllVacations = async () => {
   return vacations;
 };
 
-const getOneVacation = async (id) => {
-  const vacation = await vacationsDao.getOneVacation(id);
+const getFollowedVacation = async (id) => {
+  const vacation = await vacationsDao.getFollowedVacation(id);
   return vacation;
 };
 
@@ -97,7 +97,7 @@ const validURL = (string) => {
 
 module.exports = {
   addVacation,
-  getOneVacation,
+  getFollowedVacation,
   getAllVacations,
   deleteVacation,
   updateVacation,

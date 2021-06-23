@@ -24,6 +24,7 @@ router.post('/',authenticateJWT, async (req, res, next) => {
   }
 });
 
+
 //Get all vacations
 router.get('/',authenticateJWT,async (req, res, next) => {
   try {
@@ -39,7 +40,7 @@ router.get('/',authenticateJWT,async (req, res, next) => {
 router.get('/:id',authenticateJWT, async (req, res, next) => {
   try {
     const id = req.params.id;
-    const vacation = await vacationsLogic.getOneVacation(id);
+    const vacation = await vacationsLogic.getFollowedVacation(id);
 
     res.json(vacation);
   } catch (error) {

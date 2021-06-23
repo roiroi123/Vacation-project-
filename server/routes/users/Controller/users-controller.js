@@ -44,7 +44,6 @@ router.post('/isAuthanticated', (req,res)=>{
   const { secret } = config;
   try {
     const token = req.body.token;
-    console.log("token",token);
     if (token) {
      
       
