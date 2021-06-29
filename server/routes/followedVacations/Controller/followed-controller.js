@@ -18,9 +18,9 @@ router.post('/',authenticateJWT, async (req, res, next) => {
     }
   });
 // UnFollow vacation
-router.delete('/',authenticateJWT, async (req, res, next) => {
+router.delete('/:userId/:vacationId',authenticateJWT, async (req, res, next) => {
     
-  vacationFollowedDetails = req.body;
+  vacationFollowedDetails = {userId:req.params.userId,vacationId:req.params.vacationId};
     console.log(vacationFollowedDetails);
     try {
       const vacationId = await followedVacationsLogic.unFollowVacation(vacationFollowedDetails);

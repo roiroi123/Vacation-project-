@@ -49,17 +49,16 @@ const getAllVacations = async () => {
 };
 
 const updateVacation = async (vacationUpdateDetails, id) => {
-  let sql =
-    "UPDATE vacations SET description=?, destination=?, image=?, departure_date=?, arrival_date=?, price=? WHERE vacations.id=?;";
-
+  let sql = `UPDATE vacations SET description= ?, destination= ?, img_url= ?,  start_date= ?, end_date= ?,price= ? WHERE vacations.id=?;`;
+  console.log(vacationUpdateDetails);
   let parameters = [
     vacationUpdateDetails.description,
     vacationUpdateDetails.destination,
-    vacationUpdateDetails.image,
-    vacationUpdateDetails.departureDate,
-    vacationUpdateDetails.arrivalDate,
+    vacationUpdateDetails.img_url,
+    vacationUpdateDetails.start_date,
+    vacationUpdateDetails.end_date,
     vacationUpdateDetails.price,
-    id,
+    id
   ];
 
   try {

@@ -57,7 +57,7 @@ router.put('/:id',authenticateJWT, async (req, res, next) => {
       vacationUpdateDetails,
       id
     );
-
+      console.log("put OK");
     res.json(updatedId);
   } catch (error) {
     return next(error);
